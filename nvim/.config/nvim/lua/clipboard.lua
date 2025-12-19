@@ -6,7 +6,7 @@ if vim.env.SSH_CONNECTION ~= nil or vim.env.SSH_CLIENT ~= nil or vim.env.SSH_TTY
     -- If running outside of ZELLIJ, use OSC52 for both copy and paste.
     vim.schedule(function()
       vim.o.clipboard = 'unnamedplus'
-      vim.g.clipboard = 'ocs52'
+      vim.g.clipboard = 'osc52'
     end)
   else
     -- If running over SSH *and* inside of zellij, use OSC52 only for copy.
