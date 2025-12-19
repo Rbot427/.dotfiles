@@ -20,10 +20,10 @@ if vim.env.SSH_CONNECTION ~= nil or vim.env.SSH_CLIENT ~= nil or vim.env.SSH_TTY
         },
         paste = {
           ['+'] = function()
-            return vim.split(vim.fn.getreg '+', '\n'), vim.fn.getregtype '+'
+            return vim.split(vim.fn.getreg '', '\n'), vim.fn.getregtype ''
           end,
           ['*'] = function()
-            return vim.split(vim.fn.getreg '*', '\n'), vim.fn.getregtype '*'
+            return vim.split(vim.fn.getreg '', '\n'), vim.fn.getregtype ''
           end,
         },
       }
