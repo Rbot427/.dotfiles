@@ -1,4 +1,4 @@
-P10K_DIR="$ZDOTDIR/plugins/p10k"
+P10K_DIR="$ZDOTDIR/plugins/powerlevel10k"
 
 [[ -o interactive ]] || return
 [[ -d $P10K_DIR ]] || return
@@ -15,4 +15,4 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 source "$P10K_DIR/powerlevel10k.zsh-theme"
-[[ -f $P10K_DIR/p10k.zsh ]] && source $P10K_DIR/p10k.zsh
+[[ -f $ZDOTDIR/p10k.zsh ]] && source $ZDOTDIR/p10k.zsh
