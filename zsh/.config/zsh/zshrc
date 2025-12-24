@@ -1,0 +1,15 @@
+# Load core.
+for file in $ZDOTDIR/core/*.zsh; do
+  source "$file"
+done
+
+source $ZDOTDIR/prompt.simple.zsh
+
+# Load machine policy.
+[[ -f $ZDOTDIR/local.zsh ]] && source $ZDOTDIR/local.zsh
+
+# Load extra features enabled in `local.zsh`.
+for feature in ${(k)ZSH_FEATURES}; do
+  [[ ${ZSH_FEATURES[$feature]} == 1 ]] && \
+    source "$ZDOTDIR/features/$feature.zsh"
+done
