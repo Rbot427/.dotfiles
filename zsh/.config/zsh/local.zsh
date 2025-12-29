@@ -6,3 +6,5 @@ ZSH_FEATURES=(
   syntax-highlighting      0
   history-substring-search 0
 )
+
+printf '\e[6 q'
