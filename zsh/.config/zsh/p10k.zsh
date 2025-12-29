@@ -48,7 +48,7 @@
   # Surfaces
   typeset -g P10K_COLOR_SURFACE2="#585b70" # Surface 2
   typeset -g P10K_COLOR_SURFACE1="#45475a" # Surface 1
-  typeset -g P10K_COLOR_SURFACE0="#313244" # Surface 0
+  typeset -g P10K_COLOR_SURFACE0="#414559" # Surface 0
   
   # Accent colors
   typeset -g P10K_COLOR_BLUE="#89b4fa"      # Blue
