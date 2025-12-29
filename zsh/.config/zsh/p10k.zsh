@@ -421,8 +421,8 @@
 
     if (( $1 )); then
       # Styling for up-to-date Git status.
-      local       meta='%F{#cba6f7}'     # default foreground
-      local      clean='%F{#cba6f7}'   # green foreground
+      local       meta='%F{#a6e3a1}'     # default foreground
+      local      clean='%F{#a6e3a1}'   # green foreground
       local   modified='%F{#f9e2af}'  # yellow foreground
       local  untracked='%F{#89b4fa}'   # blue foreground
       local conflicted='%F{#f38ba8}'  # red foreground
@@ -563,7 +563,7 @@
 
   # Status on success. No content, just an icon. No need to show it if prompt_char is enabled as
   # it will signify success by turning green.
-  typeset -g POWERLEVEL9K_STATUS_OK=true
+  typeset -g POWERLEVEL9K_STATUS_OK=false
   typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=$P10K_COLOR_GREEN
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION='✔'
 
@@ -980,7 +980,7 @@
 
   # Don't show context unless running with privileges or in SSH.
   # Tip: Remove the next line to always show context.
-  typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
+  # typeset -g POWERLEVEL9K_CONTEXT_{DEFAULT,SUDO}_{CONTENT,VISUAL_IDENTIFIER}_EXPANSION=
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_CONTEXT_VISUAL_IDENTIFIER_EXPANSION='⭐'
