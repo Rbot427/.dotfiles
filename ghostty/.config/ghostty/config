@@ -3,3 +3,6 @@ font-size = 10
 theme = "Catppuccin Mocha"
 command = "/bin/zsh"
 app-notifications = "no-clipboard-copy"
+
+# Create a config file called "local" in this directory to add machine-specific configurations / overrides.
+config-file = ?local
