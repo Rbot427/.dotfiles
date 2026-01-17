@@ -1,5 +1,6 @@
 -- clipboard.lua
-
+-- Sync clipboard between OS and Neovim.
+-- Schedule the setting after `UiEnter` because it can increase startup-time.
 if vim.env.SSH_CONNECTION ~= nil or vim.env.SSH_CLIENT ~= nil or vim.env.SSH_TTY ~= nil then
   -- If running nvim over an ssh connection, try syncing the clipboard via OSC52.
   if vim.env.ZELLIJ == nil then
