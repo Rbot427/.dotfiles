@@ -1,2 +1,0 @@
--- `local.lua` is imported as the last step in `init.lua`
--- Add your machine specific neovim configuration to this file
