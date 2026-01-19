@@ -7,3 +7,5 @@ spell/
 lazy-lock.json
 
 lua/local/*.lua
+lua/local/plugins/*.lua
+!lua/local/plugins/init.lua
