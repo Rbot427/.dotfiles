@@ -1,3 +1,15 @@
+typeset -gA ZSH_FEATURES
+
+ZSH_FEATURES=(
+  p10k                     1
+  autosuggestions          1
+  syntax-highlighting      1
+  history-substring-search 1
+)
+
+# Run prehook local overrides.
+[[ -f $ZDOTDIR/local/prehook.zsh ]] && source $ZDOTDIR/local/prehook.zsh
+
 # Load core.
 for file in $ZDOTDIR/core/*.zsh; do
   source "$file"
@@ -5,11 +17,13 @@ done
 
 source $ZDOTDIR/prompt.simple.zsh
 
-# Load machine policy.
-[[ -f $ZDOTDIR/local.zsh ]] && source $ZDOTDIR/local.zsh
-
 # Load extra features enabled in `local.zsh`.
 for feature in ${(k)ZSH_FEATURES}; do
   [[ ${ZSH_FEATURES[$feature]} == 1 ]] && \
     source "$ZDOTDIR/features/$feature.zsh"
 done
+
+printf '\e[6 q'
+
+# Run posthook local overrides.
+[[ -f $ZDOTDIR/local/posthook.zsh ]] && source $ZDOTDIR/local/posthook.zsh
