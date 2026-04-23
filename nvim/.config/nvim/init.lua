@@ -426,6 +426,9 @@ require('lazy').setup({
           -- or a suggestion from your LSP for this to activate.
           map('ga', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
 
+          -- Execute a code lens.
+          map('gl', vim.lsp.codelens.run, '[G]oto Code [L]ens', { 'n', 'x' })
+
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
@@ -506,6 +509,11 @@ require('lazy').setup({
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
+
+          -- The following code creates a keymap to toggle inlay code lens annotations in your code.
+          map('<leader>tl', function()
+            vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+          end, '[T]oggle Code [L]ens')
         end,
       })
 
