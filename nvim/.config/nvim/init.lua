@@ -430,7 +430,7 @@ require('lazy').setup({
           map('gl', vim.lsp.codelens.run, '[G]oto Code [L]ens', { 'n', 'x' })
 
           -- Find references for the word under your cursor.
-          map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+          map('grr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
 
           -- Jump to the implementation of the word under your cursor.
           --  Useful when your language has ways of declaring types without an actual implementation.
@@ -514,6 +514,11 @@ require('lazy').setup({
           map('<leader>tl', function()
             vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
           end, '[T]oggle Code [L]ens')
+
+          -- The following code creates a keymap to toggle semantic tokens.
+          map('<leader>ts', function()
+            vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled())
+          end, '[T]oggle [S]emantic Tokens')
         end,
       })
 
