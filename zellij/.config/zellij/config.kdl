@@ -268,3 +268,4 @@ default_layout "compact"
 pane_frames false
 // For my sanity.
 show_startup_tips false
+mouse_hover_effects false
