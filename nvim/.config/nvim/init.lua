@@ -1,11 +1,9 @@
 pcall(require, 'local.prehook')
 
 -- Set <space> as the leader key
--- See `:help mapleader`
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Set to true if you have a Nerd Font installed and selected in the terminal.
 vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
@@ -20,6 +18,8 @@ vim.o.mouse = 'a'
 -- Don't show the mode, since it's already in the status line.
 vim.o.showmode = false
 
+-- Sync the clipboard with the host machine.
+-- Works even when running neovim remotely via ssh and inside of a zellij session.
 require 'clipboard'
 
 vim.o.breakindent = true
@@ -40,13 +40,6 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
 vim.o.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
@@ -97,12 +90,12 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
--- Exit insert mode easier
+-- Exit insert mode easier, especially on laptops with a teeny tiny escape key.
 vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exits insert mode' })
 
 -- Keep cursor centered when navigating by half pages.
-vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Move down by half a page and center the cursor' })
-vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Move down by half a page and center the cursor' })
+vim.keymap.set('n', '<C-d>', '<C-d>M', { desc = 'Move down by half a page and center the cursor' })
+vim.keymap.set('n', '<C-u>', '<C-u>M', { desc = 'Move down by half a page and center the cursor' })
 
 -- Add the ability to paste over text without clobbering the paste register.
 vim.keymap.set('x', '<leader>p', '"_dP')
@@ -164,25 +157,6 @@ require('lazy').setup({
     end,
   },
 
-  --
-  -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
-  --
-
-  -- Alternatively, use `config = function() ... end` for full control over the configuration.
-  -- If you prefer to call `setup` explicitly, use:
-  --    {
-  --        'lewis6991/gitsigns.nvim',
-  --        config = function()
-  --            require('gitsigns').setup({
-  --                -- Your gitsigns configuration here
-  --            })
-  --        end,
-  --    }
-  --
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`.
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -196,31 +170,15 @@ require('lazy').setup({
     },
   },
 
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `opts` key (recommended), the configuration runs
-  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VimEnter',
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
       delay = 250,
       icons = {
-        -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
           Up = '<Up> ',
           Down = '<Down> ',
@@ -407,7 +365,7 @@ require('lazy').setup({
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('gn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('gn', vim.lsp.buf.rename, 'Re[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
@@ -445,26 +403,13 @@ require('lazy').setup({
           --  the definition of its *type*, not where it was *defined*.
           map('gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
-          -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-          ---@param client vim.lsp.Client
-          ---@param method vim.lsp.protocol.Method
-          ---@param bufnr? integer some lsp support methods only in specific files
-          ---@return boolean
-          local function client_supports_method(client, method, bufnr)
-            if vim.fn.has 'nvim-0.11' == 1 then
-              return client:supports_method(method, bufnr)
-            else
-              return client.supports_method(method, { bufnr = bufnr })
-            end
-          end
-
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+          if client and client:supports_method('textDocument/documentHighlight', event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -491,21 +436,25 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          if client and client:supports_method('textDocument/inlayHint', event.buf) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
           end
 
           -- The following code creates a keymap to toggle inlay code lens annotations in your code.
-          map('<leader>tl', function()
-            vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
-          end, '[T]oggle Code [L]ens')
+          if client and client:supports_method('textDocument/codeLens', event.buf) then
+            map('<leader>tl', function()
+              vim.lsp.codelens.enable(not vim.lsp.codelens.is_enabled())
+            end, '[T]oggle Code [L]ens')
+          end
 
           -- The following code creates a keymap to toggle semantic tokens.
-          map('<leader>ts', function()
-            vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled())
-          end, '[T]oggle [S]emantic Tokens')
+          if client and client:supports_method('textDocument/semanticTokens', event.buf) then
+            map('<leader>ts', function()
+              vim.lsp.semantic_tokens.enable(not vim.lsp.semantic_tokens.is_enabled())
+            end, '[T]oggle [S]emantic Tokens')
+          end
         end,
       })
 
@@ -628,68 +577,25 @@ require('lazy').setup({
   { -- Autocompletion
     'saghen/blink.cmp',
     event = 'VimEnter',
-    version = '1.*',
     dependencies = {
-      -- Snippet Engine
-      {
-        'L3MON4D3/LuaSnip',
-        version = '2.*',
-        build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has 'win32' == 1 or vim.fn.executable 'make' == 0 then
-            return
-          end
-          return 'make install_jsregexp'
-        end)(),
-        dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
-        },
-        opts = {},
-      },
+      'saghen/blink.lib',
       'folke/lazydev.nvim',
     },
+    build = function()
+      -- build the fuzzy matcher, wait up to 60 seconds
+      -- you can use `gb` in `:Lazy` to rebuild the plugin as needed
+      require('blink.cmp').build():wait(60000)
+    end,
     --- @module 'blink.cmp'
     --- @type blink.cmp.Config
     opts = {
       keymap = {
-        -- 'default' (recommended) for mappings similar to built-in completions
-        --   <c-y> to accept ([y]es) the completion.
-        --    This will auto-import if your LSP supports it.
-        --    This will expand snippets if the LSP sent a snippet.
-        -- 'super-tab' for tab to accept
-        -- 'enter' for enter to accept
-        -- 'none' for no mappings
-        --
-        -- For an understanding of why the 'default' preset is recommended,
-        -- you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        --
-        -- All presets have the following mappings:
-        -- <tab>/<s-tab>: move to right/left of your snippet expansion
-        -- <c-space>: Open menu or open docs if already open
-        -- <c-n>/<c-p> or <up>/<down>: Select next/previous item
-        -- <c-e>: Hide menu
-        -- <c-k>: Toggle signature help
-        --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
         ['<C-l>'] = { 'snippet_forward', 'fallback' },
         ['<C-h>'] = { 'snippet_backward', 'fallback' },
         ['<Tab>'] = false,
         ['<S-Tab>'] = false,
-        -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-        --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
 
       appearance = {
@@ -700,8 +606,11 @@ require('lazy').setup({
 
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
-        -- Optionally, set `auto_show = true` to show the documentation after a delay.
         documentation = { auto_show = true, auto_show_delay_ms = 500 },
+      },
+
+      cmdline = {
+        completion = { menu = { auto_show = false } },
       },
 
       sources = {
@@ -710,8 +619,6 @@ require('lazy').setup({
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
       },
-
-      snippets = { preset = 'luasnip' },
 
       -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
       -- which automatically downloads a prebuilt binary when enabled.
@@ -791,16 +698,10 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-  { -- Highlight, edit, and navigate code
+  { -- Treesitter parser management.
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     lazy = false,
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     config = function()
       -- Auto start treesitter if a parser is available.
       vim.api.nvim_create_autocmd('FileType', {
