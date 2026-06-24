@@ -1,2 +1,2 @@
 [highlighting]
-theme = "catppuccin-mocha"
+theme = "file:$HOME/.config/zsh-patina/theme.toml"
