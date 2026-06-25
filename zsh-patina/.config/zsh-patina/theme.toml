@@ -5,7 +5,7 @@
 "comment" = "#9399b2"
 
 # strings
-"string" = "#a6e3a1"
+"string" = "#f9e2af"
 
 # regular expressions
 "keyword.operator.regexp" = "#f5c2e7"
@@ -17,14 +17,14 @@
 "constant" = "#fab387"
 
 # parameters
-"variable.parameter" = "#f9e2af"
+"variable.parameter" = "#f5e0dc"
 
 # environment variables
 "variable.other" = "#fab387"
 "punctuation.definition.variable" = "#fab387"
 
 # commands
-"variable.function" = "#b4befe"
+"variable.function" = "#a6e3a1"
 
 # home directory ~
 "variable.language.tilde" = "#cdd6f4"
@@ -59,6 +59,6 @@ source = "#cdd6f4"
 "meta.group.expansion.command.parens" = { foreground = "#cdd6f4" }
 
 # dynamic items
-"dynamic.callable" = "#b4befe"
+"dynamic.callable" = { foreground = "#a6e3a1", bold = true }
 "dynamic.callable.missing" = "#f38ba8"
 "dynamic.path" = { underline = true }
