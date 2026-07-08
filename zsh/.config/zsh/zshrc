@@ -8,7 +8,7 @@ ZSH_FEATURES=(
 )
 
 # Run prehook local overrides.
-[[ -f $ZDOTDIR/local/prehook.zsh ]] && source $ZDOTDIR/local/prehook.zsh
+[[ -f $ZDOTDIR/local/prehook.zsh ]] && source $ZDOTDIR/local/prehook.zsh || true
 
 # Load core.
 for file in $ZDOTDIR/core/*.zsh; do
@@ -26,4 +26,4 @@ done
 printf '\e[6 q'
 
 # Run posthook local overrides.
-[[ -f $ZDOTDIR/local/posthook.zsh ]] && source $ZDOTDIR/local/posthook.zsh
+[[ -f $ZDOTDIR/local/posthook.zsh ]] && source $ZDOTDIR/local/posthook.zsh || true
