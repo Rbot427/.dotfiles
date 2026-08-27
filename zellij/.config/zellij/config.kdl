@@ -24,6 +24,11 @@ keybinds clear-defaults=true {
         bind "x" { CloseFocus; SwitchToMode "locked"; }
         bind "z" { TogglePaneFrames; SwitchToMode "locked"; }
         bind "tab" { SwitchFocus; }
+        bind ";" { FocusLastPane; }
+        bind "Shift f" {
+            ToggleFocusNoUiFullscreen;
+            SwitchToMode "Normal";
+        }
     }
     tab {
         bind "left" { GoToPreviousTab; }
@@ -143,6 +148,9 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "locked"
         }
+        bind "[" { FocusGuestSession; }
+        bind "]" { FocusHostSession; }
+        bind "f" { ToggleHostFullscreen; }
     }
     shared_among "normal" "locked" {
         bind "Alt left" { MoveFocusOrTab "left"; }
