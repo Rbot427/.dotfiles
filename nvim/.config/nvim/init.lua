@@ -100,7 +100,9 @@ vim.keymap.set('n', '<C-u>', '<C-u>M', { desc = 'Move down by half a page and ce
 -- Add the ability to paste over text without clobbering the paste register.
 vim.keymap.set('x', '<leader>p', '"_dP')
 
--- Toggle spellcheck.
+-- Enable spellcheck and create a binding to toggle.
+vim.o.spell = true
+vim.o.spellcapcheck = ''
 vim.keymap.set('n', '<leader>c', '<cmd>set spell!<CR>', { desc = 'Toggle spellcheck' })
 
 -- [[ Basic Autocommands ]]
