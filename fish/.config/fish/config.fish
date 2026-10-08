@@ -1,3 +1,6 @@
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+
 if status is-interactive
     set -g fish_greeting
     fish_vi_key_bindings
@@ -10,6 +13,7 @@ if status is-interactive
     set -g fish_cursor_visual block
 
     # Commands to run in interactive sessions can go here
-	# TODO: condition this line on the existence of `starship`
-	starship init fish | source
+    if type -q starship
+        starship init fish | source
+    end
 end

@@ -1,7 +1,7 @@
 typeset -gA ZSH_FEATURES
 
 ZSH_FEATURES=(
-  p10k                     1
+  p10k                     0
   autosuggestions          1
   syntax-highlighting      1
   history-substring-search 1
@@ -15,7 +15,11 @@ for file in $ZDOTDIR/core/*.zsh; do
   source "$file"
 done
 
-source $ZDOTDIR/prompt.simple.zsh
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+else
+  source $ZDOTDIR/prompt.simple.zsh
+fi
 
 # Load extra features enabled in `local.zsh`.
 for feature in ${(k)ZSH_FEATURES}; do
