@@ -3,39 +3,53 @@
 add_newline = false
 
 format = """
-[█](red)\
 $os\
-$username\
-[](bg:peach fg:red)\
 $directory\
-[](bg:yellow fg:peach)\
 $git_branch\
 $git_status\
-[](fg:yellow bg:green)\
+[](fg:prev_bg)\
+$fill\
+[](fg:surface1)\
+$cmd_duration\
+$time\
+$nodejs\
+$bun\
 $c\
 $rust\
 $golang\
-$nodejs\
-$bun\
 $php\
 $java\
 $kotlin\
 $haskell\
 $python\
-[](fg:green bg:sapphire)\
 $conda\
-[](fg:sapphire bg:lavender)\
-$time\
-[ ](fg:lavender)\
-$cmd_duration\
+$direnv\
+$username\
+$hostname\
 $line_break\
 $character"""
 
 palette = 'catppuccin_mocha'
 
+[fill]
+symbol = "·"
+style = "fg:overlay0"
+
+[username]
+show_always = true
+style_user = "fg:yellow bg:surface1"
+style_root = "fg:red bg:surface1"
+format = "[ $user]($style)"
+
+[hostname]
+ssh_only = false
+style = "fg:yellow bg:surface1"
+format = "[@$hostname ]($style)"
+
 [os]
 disabled = false
-style = "bg:red fg:crust"
+style = "fg:lavender bg:surface1"
+format = "[ $symbol ]($style)"
 
 [os.symbols]
 Windows = ""
@@ -59,87 +73,74 @@ Debian = "󰣚"
 Redhat = "󱄛"
 RedHatEnterprise = "󱄛"
 
-[username]
-show_always = true
-style_user = "bg:red fg:crust"
-style_root = "bg:red fg:crust"
-format = '[ $user]($style)'
-
 [directory]
-style = "bg:peach fg:crust"
-format = "[ $path ]($style)"
-# truncation_length = 5
+style = "bold fg:lavender bg:surface1"
+format = '[  $path ]($style)'
+truncation_length = 3
 truncation_symbol = "…/"
 truncate_to_repo = false
 fish_style_pwd_dir_length = 3
 
-[directory.substitutions]
-"Documents" = "󰈙 "
-"Downloads" = " "
-"Music" = "󰝚 "
-"Pictures" = " "
-"Developer" = "󰲋 "
-
 [git_branch]
 symbol = ""
-style = "bg:yellow"
-format = '[[ $symbol $branch ](fg:crust bg:yellow)]($style)'
+style = "bold fg:lavender bg:surface1"
+format = '[](fg:text bg:surface1)[ $symbol $branch ]($style)'
 disabled = true
 
 [git_status]
-style = "bg:yellow"
-format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
+style = "fg:subtext1 bg:surface1"
+format = '[[($all_status$ahead_behind )](fg:subtext1 bg:surface1)]($style)'
 disabled = true
 
 [nodejs]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [bun]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [c]
 symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [rust]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [golang]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [php]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [java]
 symbol = " "
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [kotlin]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [haskell]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version) ]($style)'
 
 [python]
 symbol = ""
-style = "bg:green"
-format = '[[ $symbol( $version)(\(#$virtualenv\)) ](fg:crust bg:green)]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol( $version)(\(#$virtualenv\)) ]($style)'
 
 [docker_context]
 symbol = ""
@@ -148,15 +149,20 @@ format = '[[ $symbol( $context) ](fg:crust bg:sapphire)]($style)'
 
 [conda]
 symbol = "  "
-style = "fg:crust bg:sapphire"
-format = '[$symbol$environment ]($style)'
+style = "fg:lavender bg:surface1"
+format = '[ $symbol$environment ]($style)'
 ignore_base = false
 
 [time]
-disabled = false
+disabled = true
 time_format = "%R"
-style = "bg:lavender"
-format = '[[  $time ](fg:crust bg:lavender)]($style)'
+style = "fg:subtext1 bg:surface1"
+format = '[  $time ]($style)'
+
+[direnv]
+disabled = false
+style = "fg:subtext1 bg:surface1"
+format = '[$symbol$loaded/$allowed ]($style)'
 
 [line_break]
 disabled = false
@@ -172,8 +178,9 @@ vimcmd_visual_symbol = '[❮](bold fg:yellow)'
 
 [cmd_duration]
 show_milliseconds = true
-format = " in $duration "
-style = "bg:lavender"
+min_time = 500
+format = "[ $duration  ]($style)"
+style = "fg:subtext1 bg:surface1"
 disabled = false
 show_notifications = true
 min_time_to_notify = 45000
