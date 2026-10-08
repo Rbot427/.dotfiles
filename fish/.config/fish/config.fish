@@ -12,6 +12,8 @@ if status is-interactive
     set -g fish_cursor_replace underscore
     set -g fish_cursor_visual block
 
+    set -gx TERM xterm-256color
+
     # Commands to run in interactive sessions can go here
     if type -q starship
         starship init fish | source
