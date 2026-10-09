@@ -2,7 +2,12 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 fish_add_path "$HOME/.cargo/bin"
 
-alias ll='ls -alhF'
+switch (uname -s)
+    case Darwin
+        alias ll='ls -G -alhF'
+    case Linux
+        alias ll='ls --color=auto -alhF'
+end
 
 if status is-interactive
     set -g fish_greeting
