@@ -1,5 +1,8 @@
 set -gx EDITOR nvim
 set -gx VISUAL nvim
+fish_add_path "$HOME/.cargo/bin"
+
+alias ll='ls -alhF'
 
 if status is-interactive
     set -g fish_greeting
